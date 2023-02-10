@@ -57,3 +57,12 @@ enum vocationTypes {
   NINJA
   ARCHER
 }
+
+// required for express-session with prisma
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
