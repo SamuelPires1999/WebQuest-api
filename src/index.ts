@@ -7,6 +7,8 @@ import { PrismaClient } from "@prisma/client";
 
 const setupServer = async () => {
     const app = Express();
+    app.use(cors());
+    app.use(Express.json());
 
     app.use(
         expressSession({
@@ -14,7 +16,7 @@ const setupServer = async () => {
             cookie: {
                 maxAge: 7 * 24 * 60 * 60 * 1000, // ms
             },
-            secret: "a santa at nasa",
+            secret: process.env.COOKIE_SECRET || "super-cookie-secret",
             resave: true,
             saveUninitialized: true,
             store: new PrismaSessionStore(new PrismaClient(), {
@@ -24,8 +26,6 @@ const setupServer = async () => {
             }),
         })
     );
-
-    app.use(cors());
 
     app.use("/api", apiRoutes);
 
