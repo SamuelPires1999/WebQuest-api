@@ -4,7 +4,7 @@ import { db } from "../../database";
 
 export const registerUser = async (req: Request, res: Response) => {
     try {
-        const validatedData = registerSchema.parse(req.body);
+        const validatedData = registerSchema.parse(req.body.data);
 
         const newUser = await db.user.create({
             data: {
@@ -22,4 +22,12 @@ export const registerUser = async (req: Request, res: Response) => {
             error,
         });
     }
+};
+
+// TODO - remove this later, only here for testing purposes
+export const listUsers = async (req: Request, res: Response) => {
+    const data = await db.user.findMany();
+    return res.json({
+        data,
+    });
 };
